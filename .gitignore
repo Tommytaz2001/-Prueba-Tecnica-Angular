@@ -1,0 +1,60 @@
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Miscellaneous
+/.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+__screenshots__/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Documentación personal (no incluir en el repositorio)
+EXPLICACION_PARA_PRINCIPIANTES.md
+FEATURE_F1_COMPLETE.md
+FEATURE_F2_COMPLETE.md
+FEATURE_F4_COMPLETE.md
+FEATURE_F5_COMPLETE.md
+MODAL_CONFIRMATION_COMPLETE.md
+CLEANUP_SUMMARY.md
+TEST_COVERAGE_REPORT.md
+GIT_CHECKLIST.md
+RESUMEN_PARA_GIT.md
+PROJECT_STRUCTURE.md
+SETUP_COMPLETE.md
+
+# Archivos de backup
+*.backup

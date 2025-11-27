@@ -1,0 +1,44 @@
+<div class="notification-container">
+  @for (notification of notifications$ | async; track notification.id) {
+    <div [class]="getNotificationClass(notification.type)" role="alert">
+      <div class="notification__content">
+        <span class="notification__icon">
+          @switch (notification.type) {
+            @case ('success') {
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM8 15L3 10L4.41 8.59L8 12.17L15.59 4.58L17 6L8 15Z" fill="currentColor"/>
+              </svg>
+            }
+            @case ('error') {
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM11 15H9V13H11V15ZM11 11H9V5H11V11Z" fill="currentColor"/>
+              </svg>
+            }
+            @case ('warning') {
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M1 17H19L10 2L1 17ZM11 14H9V12H11V14ZM11 10H9V6H11V10Z" fill="currentColor"/>
+              </svg>
+            }
+            @case ('info') {
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM11 15H9V9H11V15ZM11 7H9V5H11V7Z" fill="currentColor"/>
+              </svg>
+            }
+          }
+        </span>
+        <p class="notification__message">{{ notification.message }}</p>
+      </div>
+      @if (notification.dismissible) {
+        <button 
+          class="notification__close" 
+          (click)="dismiss(notification.id)"
+          aria-label="Cerrar notificación"
+          type="button">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M12.5 3.5L3.5 12.5M3.5 3.5L12.5 12.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      }
+    </div>
+  }
+</div>

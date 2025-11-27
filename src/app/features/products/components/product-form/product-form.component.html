@@ -1,0 +1,142 @@
+<div class="form-container">
+  <div class="form-card">
+    <h1 class="form-title">{{ isEditMode ? 'Editar Producto' : 'Formulario de Registro' }}</h1>
+    
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="product-form">
+      <!-- Fila 1: ID y Nombre -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="id" class="form-label">
+            ID
+            <span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            id="id"
+            formControlName="id"
+            class="form-input"
+            [class.error]="hasError('id')"
+            (blur)="validateId()"
+            placeholder="Ingrese el ID"
+          />
+          <span *ngIf="hasError('id')" class="error-message">
+            {{ getErrorMessage('id') }}
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="name" class="form-label">
+            Nombre
+            <span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            id="name"
+            formControlName="name"
+            class="form-input"
+            [class.error]="hasError('name')"
+            placeholder="Ej: Tarjeta Crédito"
+          />
+          <span *ngIf="hasError('name')" class="error-message">
+            {{ getErrorMessage('name') }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Fila 2: Descripción y Logo -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="description" class="form-label">
+            Descripción
+            <span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            id="description"
+            formControlName="description"
+            class="form-input"
+            [class.error]="hasError('description')"
+            placeholder="Ingrese la descripción"
+          />
+          <span *ngIf="hasError('description')" class="error-message">
+            {{ getErrorMessage('description') }}
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="logo" class="form-label">
+            Logo
+            <span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            id="logo"
+            formControlName="logo"
+            class="form-input"
+            [class.error]="hasError('logo')"
+            placeholder="URL del logo"
+          />
+          <span *ngIf="hasError('logo')" class="error-message">
+            {{ getErrorMessage('logo') }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Fila 3: Fecha Liberación y Fecha Revisión -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="date_release" class="form-label">
+            Fecha Liberación
+            <span class="required">*</span>
+          </label>
+          <input
+            type="date"
+            id="date_release"
+            formControlName="date_release"
+            class="form-input"
+            [class.error]="hasError('date_release')"
+          />
+          <span *ngIf="hasError('date_release')" class="error-message">
+            {{ getErrorMessage('date_release') }}
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="date_revision" class="form-label">
+            Fecha Revisión
+            <span class="required">*</span>
+          </label>
+          <input
+            type="date"
+            id="date_revision"
+            formControlName="date_revision"
+            class="form-input"
+            readonly
+          />
+          <span class="info-message">
+            Se calcula automáticamente (1 año después)
+          </span>
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="form-actions">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="onReset()"
+          [disabled]="isSubmitting"
+        >
+          Reiniciar
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="isSubmitting || productForm.invalid"
+        >
+          {{ isSubmitting ? 'Enviando...' : (isEditMode ? 'Actualizar' : 'Enviar') }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

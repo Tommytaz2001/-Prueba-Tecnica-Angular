@@ -1,0 +1,125 @@
+<div class="product-list-container">
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" rx="4" fill="#FFD500"/>
+        <path d="M8 12H24M8 16H24M8 20H16" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span class="logo-text">BANCO</span>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Search Bar -->
+    <div class="search-section">
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search..."
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()"
+        aria-label="Buscar productos"
+      />
+      <button class="btn btn-primary" type="button" (click)="navigateToForm()">
+        Agregar
+      </button>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading">
+      <app-loading [size]="'large'" [message]="'Cargando productos...'"></app-loading>
+    </div>
+
+    <!-- Products Table -->
+    <div *ngIf="!isLoading && filteredProducts.length > 0">
+      <div class="table-container">
+        <table class="products-table">
+          <thead>
+            <tr>
+              <th>Logo</th>
+              <th>Nombre del producto</th>
+              <th>Descripción</th>
+              <th>Fecha de liberación</th>
+              <th>Fecha de reestructuración</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of getPaginatedProducts(); trackBy: trackByProductId">
+              <td>
+                <div class="product-logo">
+                  <img [src]="product.logo" [alt]="product.name" />
+                </div>
+              </td>
+              <td>{{ product.name }}</td>
+              <td>{{ product.description }}</td>
+              <td>{{ formatDate(product.date_release) }}</td>
+              <td>{{ formatDate(product.date_revision) }}</td>
+              <td>
+                <div class="actions-menu">
+                  <button class="btn-menu" type="button" aria-label="Menú de acciones">
+                    <svg width="4" height="16" viewBox="0 0 4 16" fill="none">
+                      <circle cx="2" cy="2" r="2" fill="currentColor"/>
+                      <circle cx="2" cy="8" r="2" fill="currentColor"/>
+                      <circle cx="2" cy="14" r="2" fill="currentColor"/>
+                    </svg>
+                  </button>
+                  <div class="dropdown-menu">
+                    <button class="dropdown-item" type="button" (click)="editProduct(product)">Editar</button>
+                    <button class="dropdown-item" type="button" (click)="deleteProduct(product)">
+                      Eliminar
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination">
+        <div class="pagination-info">
+          {{ filteredProducts.length }} Resultados
+        </div>
+        <div class="pagination-controls">
+          <select
+            class="items-per-page"
+            [(ngModel)]="itemsPerPage"
+            (change)="onItemsPerPageChange()"
+            aria-label="Resultados por página"
+          >
+            <option [value]="5">5</option>
+            <option [value]="10">10</option>
+            <option [value]="20">20</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!isLoading && filteredProducts.length === 0" class="empty-state">
+      <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+        <circle cx="32" cy="32" r="30" stroke="#CBD5E0" stroke-width="2"/>
+        <path d="M32 20V32M32 38V38.5" stroke="#CBD5E0" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <h3>No se encontraron productos</h3>
+      <p>
+        <span *ngIf="searchTerm">No hay productos que coincidan con "{{ searchTerm }}"</span>
+        <span *ngIf="!searchTerm">No hay productos financieros registrados</span>
+      </p>
+    </div>
+  </main>
+</div>
+
+<!-- Modal de confirmación de eliminación -->
+<app-confirmation-modal
+  [isOpen]="showDeleteModal"
+  [message]="'¿Estas seguro de eliminar el producto ' + (productToDelete?.name || '') + '?'"
+  [confirmText]="'Confirmar'"
+  [cancelText]="'Cancelar'"
+  (confirm)="confirmDelete()"
+  (cancel)="cancelDelete()"
+></app-confirmation-modal>
